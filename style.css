@@ -4,8 +4,33 @@ body{
 .hide{
     display: none;
 }
-.car{
+
+
+.gameArea{
+    width: 300px;
+    height: 500px;
+    position: relative;
+    margin: auto;
+    background: gray;
+    overflow: hidden; /*чтобы не дергался экран*/
+}
+
+.car, .enemy{
     width: 50px;
     height: 100px;
     background: transparent url(img/player.png) center / cover no-repeat;
+    position: absolute;
+    left:125px; /*Автомобиль по центру*/
+    bottom: 10px; /*Автомобиль вниз*/
+}
+
+
+
+.line{
+    position: absolute;
+    width: 10px;
+    height: 50px;
+    background: white;
+    left:145px;
+
 }
