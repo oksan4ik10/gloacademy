@@ -42,7 +42,11 @@ function stopRun(event){
 
 
 function startGame(){
+    
+
     start.classList.add('hide');
+    gameArea.innerHTML='';
+    
 
 
     //проприсовка разделительной полосы
@@ -66,8 +70,15 @@ function startGame(){
 
 
     setting.start=true;
-    
+    setting.score=0;
+
+
+
     gameArea.appendChild(car);
+    car.style.left=gameArea.offsetWidth/2-car.offsetWidth/2;
+    car.style.top='auto';
+    car.style.bottom='10px';
+
     setting.x=car.offsetLeft; //для добавления свойства Х в объект сеттинг - перемещение влево см. css .car left
     setting.y=car.offsetTop;
     requestAnimationFrame(playGame);
@@ -77,6 +88,9 @@ function startGame(){
 function playGame(){
    
     if (setting.start){
+
+        setting.score+=setting.speed;
+        score.innerHTML='Очки:<br> '+setting.score;
 
         moveRoad();//движение разделительной полосы
         moveEnemy();//движение других машинок
@@ -122,6 +136,18 @@ function moveRoad(){
 function moveEnemy(){
     let enemy=document.querySelectorAll('.enemy');
     enemy.forEach(function(item){
+        let carRect=car.getBoundingClientRect();//получение позиции автомобиля
+        let enemyRect=item.getBoundingClientRect();
+        
+        //проверка на столкновение с другими машинами смотри paint
+        if ((carRect.top<=enemyRect.bottom)&&(carRect.right>=enemyRect.left)&&
+        (carRect.left<=enemyRect.right)&&(carRect.bottom>=enemyRect.top)
+        ){
+            setting.start=false;
+            start.classList.remove('hide');
+           score.style.top=start.offsetHeight;
+        }
+        
         item.y+=setting.speed/2;
         item.style.top=item.y+'px';
         if (item.y>= document.documentElement.clientHeight){
